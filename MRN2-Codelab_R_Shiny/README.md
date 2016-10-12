@@ -15,7 +15,7 @@ Lien : [Codelab R Shiny](http://www.meetup.com/fr-FR/Meetup-R-Nantes/events/2346
 	* shiny
 	* twitteR
 	* tidyr
-	* datatable
+	* DT
 	* rAmCharts
 	* tm
 	* wordcloud
