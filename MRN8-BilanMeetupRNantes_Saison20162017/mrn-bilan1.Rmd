@@ -1,0 +1,447 @@
+---
+title: |
+       | Meetup R Nantes
+       | \-
+       | Bilan 2016/2017
+output:   
+  slidy_presentation:
+    footer: "Meetup R Nantes, 12 juin 2017"
+    includes:
+      in_header: template/header.html
+      before_body: template/head.html
+
+css: template/meetup1.css
+date: "12 juin 2017"
+author: ""
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## {#page_title}
+
+<h3>Meetup R Nantes<br/>
+Bilan 2016/2017</h3>
+
+![](images/LogoMRN.png){ width=15%  }
+
+
+
+
+```{r, include=FALSE, eval=TRUE}
+library(rAmCharts)
+library(dplyr)
+
+library(meetupr)
+
+api_key <- "49515032401c70242f497353556533a"
+group_name <- "Meetup-R-Nantes"
+
+members <- get_members(group_name, api_key)
+
+events <- get_events(group_name, api_key, event_status = "upcoming")
+
+events_past <- get_events(group_name, api_key, event_status = "past")
+
+members <- get_members(group_name, api_key)
+```
+
+
+## {#page_title}
+
+Meetup R Nantes : 2016/2017
+
+
+## Pourquoi le "Meetup R Nantes" ?
+
+<br/>
+
+* Envie de rencontrer et d'échanger avec d'autres utilisateurs de R
+
+<br/>
+
+* Envie de partager des connaissances R
+
+<br/>
+
+* Envie d'en apprendre plus sur R et ses possibles utilisations
+
+<br/>
+
+* Envie de démocratiser R comme outil indispensable pour tout ce qui touche à la donnée
+
+
+## Rétrospective
+
+* Timeline :
+
+```{r, echo=FALSE, include=TRUE, eval=TRUE, warning=FALSE, fig.width=11}
+dates_inscriptions <- sapply(members, function(x) { as.character(as.Date(as.POSIXlt(x$group_profile$created/1000, origin = "1970-01-01"))) } )
+n_inscrits <- length(dates_inscriptions)
+dates_inscriptions <- data.frame(dates_inscriptions, effectifs = rep(1, n_inscrits))
+
+data_inscr <- dates_inscriptions %>% group_by(dates_inscriptions) %>% summarise(inscrits = sum(effectifs))
+data_inscr$cumul_inscrits <- cumsum(data_inscr$inscrits)
+
+cent <- data_inscr[which(data_inscr$cumul_inscrits == 100), "dates_inscriptions"]
+deuxcents <- data_inscr[which(data_inscr$cumul_inscrits == 200), "dates_inscriptions"]
+troiscents <- data_inscr[which(data_inscr$cumul_inscrits == 300), "dates_inscriptions"]
+
+centaines <- c(cent, deuxcents, troiscents)
+centaines <- as.character(unlist(centaines))
+
+dates_events <- sapply(events, function(x) { as.character(as.Date(as.POSIXlt(x$time/1000, origin = "1970-01-01"))) } )
+dates_events_past <- sapply(events_past, function(x) { as.character(as.Date(as.POSIXlt(x$time/1000, origin = "1970-01-01"))) } )
+dates_meetups <- c(dates_events_past, dates_events)
+
+data_timeline <- data.frame(date = c("2016-06-27", dates_meetups, centaines),
+                            titre = c("Création du Meetup", paste("Meetup", 1:length(dates_meetups)), paste(c(100, 200, 300), "inscrits")),
+                            couleur = c("#CF1838", rep("#026F9C", length(dates_meetups)),
+                                         rep("#CF1838", length(centaines))),
+                            stringsAsFactors = FALSE)
+
+data_timeline <- data_timeline[order(data_timeline$date), ]
+
+data_timeline$date <- as.Date(data_timeline$date)
+rangeT <- range(data_timeline$date)
+
+plot(NA, ylim = c(-1,1), xlim = rangeT, ann = FALSE, axes = FALSE)
+abline(h = 0,lwd = 2, col = "#5B7FA3")
+
+ypts <- rep_len(c(-1,1), length.out = nrow(data_timeline))
+txtpts <- rep_len(c(1,3), length.out = nrow(data_timeline))
+segments(data_timeline$date, 0, data_timeline$date, ypts , col = "gray80")
+
+axis.Date(
+ 1,
+ at = seq.Date(rangeT[1], rangeT[2], by = "month"),
+ format = "%m-%Y",
+ cex.axis = 0.9,
+ pos = 0,
+ lwd = 0,
+ lwd.tick = 2,
+ col ="#5B7FA3",
+ font = 2
+)
+
+points(data_timeline$date, y = ypts, pch = "-", cex = 1.5, col = "#5B7FA3")
+par(xpd = NA)
+text(
+  data_timeline$date, y = ypts,
+  labels = paste(data_timeline$titre, format(data_timeline$date, "%d/%m/%Y"), sep = "\n"), cex = 1, pos = txtpts, col = data_timeline$couleur
+)
+par(xpd = FALSE)
+```
+
+
+
+## Quelques chiffres
+
+<span class="special">Nombre total d'inscrits sur la page : `r length(members)` </span>
+
+<div id="col2">
+
+```{r, echo=FALSE, include=TRUE, eval=TRUE}
+ntot <- length(events) + length(events_past)
+
+n1 <- sum( sapply(events, function(x) { ifelse(grepl("Codelab", x$name, ignore.case = TRUE), 1, 0) }) )
+n2 <- sum( sapply(events_past, function(x) { ifelse(grepl("Codelab", x$name, ignore.case = TRUE), 1, 0) }) )
+ncodelab <- n1 + n2
+ntalk <- ntot - ncodelab
+
+data_pie <- data.frame(label = c("Talk", "Codelab"),
+                       value = c(ntalk, ncodelab),
+                       color = c("#CF1838", "#5ED54E"))
+
+amPie(data = data_pie, legend = TRUE, 
+      fontSize = 15, show_values = FALSE,
+      main = "Nombre de rencontres", mainColor = "#68838B", mainSize = 20,
+      creditsPosition = "bottom-left") %>%
+  setLegend(valueText = "", position = "right")
+```
+
+</div>
+
+<div id="col2">
+
+```{r, echo=FALSE, include=TRUE, eval=TRUE, warning=FALSE}
+calcPart <- function(x) {
+  yes <- x$yes_rsvp_count
+  type <- ifelse(grepl("Codelab", x$name, ignore.case = TRUE), "Codelab", "Talk")
+  return(list(n = yes, type = type))
+}
+nPart1 <- sapply(events, calcPart)
+nPart2 <- sapply(events_past, calcPart)
+nPart <- t(cbind(nPart1, nPart2))
+nPart <- data.frame(type = unlist(nPart[, 2]),
+                    n = unlist(nPart[, 1]))
+
+tab_Part <- nPart %>% group_by(type) %>% summarise(moy= round(mean(n), 0))
+data_Part <- data.frame(Type = tab_Part$type[2:1],
+                        Participants = tab_Part$moy[2:1],
+                        color = c("#CF1838", "#5ED54E"),
+                        stringsAsFactors = FALSE)
+
+amBarplot(x = "Type", y = "Participants", data = data_Part, horiz = TRUE, fontSize = 15,
+          main = "Nombre moyen de participants", mainColor = "#68838B", mainSize = 20,
+      creditsPosition = "bottom-right")
+```
+
+</div>
+
+
+
+## Evolution au cours du temps
+
+```{r, echo=FALSE, include=TRUE, eval=TRUE, warning=FALSE}
+dates_inscriptions <- sapply(members, function(x) { as.character(as.Date(as.POSIXlt(x$group_profile$created/1000, origin = "1970-01-01"))) } )
+n_inscrits <- length(dates_inscriptions)
+dates_inscriptions <- data.frame(dates_inscriptions, effectifs = rep(1, n_inscrits))
+
+data_inscr <- dates_inscriptions %>% group_by(dates_inscriptions) %>% summarise(inscrits = sum(effectifs))
+data_inscr$cumul_inscrits <- cumsum(data_inscr$inscrits)
+
+data_inscr$dates_inscriptions <- as.character(data_inscr$dates_inscriptions)
+
+dates_events_past <- sapply(events_past, function(x) { as.character(as.Date(as.POSIXlt(x$time/1000, origin = "1970-01-01"))) } )
+dates_meetups <- dates_events_past
+meetups <- data.frame(dates = dates_meetups, n = c(103, 134, 164, 191, 225, 278, 292))
+
+data_inscr$bullet <- rep("none", dim(data_inscr)[1])
+data_inscr$description <- rep("", dim(data_inscr)[1])
+
+for(i in 1:length(dates_meetups)) {
+  
+  date <- dates_meetups[i]
+  
+  u <- which(data_inscr$dates_inscriptions == date)
+  
+  if(length(u) > 0) {
+    
+    data_inscr$bullet[u] <- "round"
+    data_inscr$description[u] <- paste("Meetup", i)
+    
+  } else {
+    
+    v <- c(date, 0, meetups$n[i], "round", paste("Meetup", i))
+    
+    data_inscr <- rbind(data_inscr, v)
+    
+  }
+  
+}
+
+data_inscr <- data_inscr[order(data_inscr$dates_inscriptions),]
+
+
+amSerialChart(dataProvider = data_inscr, categoryField = "dates_inscriptions", creditsPosition = "top-right") %>%
+  addGraph(valueField = "cumul_inscrits", title = "Inscrits", bulletField = "bullet", descriptionField = "description", balloonText = "[[category]] : [[value]] inscrits", lineColor = "#CF1838", lineThickness = 2) %>%
+  addTitle(text = "Inscrits au cours du temps", color = "#68838B", size = 20) %>%
+  setChartCursor() %>%
+  setCategoryAxis(autoGridCount = FALSE, gridCount = 31, 
+                  labelRotation = 90, fontSize = 8)
+
+```
+
+
+## Qui sont les inscrits ?
+
+* Wordcloud des biographies des inscrits :
+
+```{r, echo=FALSE, include=TRUE, eval=TRUE, warning=FALSE, message=FALSE}
+bio <- sapply(members, function(x) {
+  
+  if(length(x$group_profile$intro) > 0) {
+    
+    return(x$group_profile$intro)
+    
+  } else if(length(x$bio) > 0) {
+    
+    return(x$bio)
+    
+  } else {
+    
+    return("")
+    
+  } })
+
+
+library(wordcloud)
+library(stringi)
+library(tm)
+
+clean_text <- function(x) {
+  
+  y <- x
+  y <- gsub("é", "e", y)
+  y <- gsub("è", "e", y)
+  y <- gsub("ê", "e", y)
+  y <- gsub("à", "a", y)
+  y <- gsub("ù", "u", y)
+  
+  return(y)
+}
+
+bio_work <- stri_trans_general(bio, "lower")
+bio_work <- sapply(bio_work, clean_text)
+bio_corpus <- Corpus(VectorSource(bio_work))
+bio_corpus <- tm_map(bio_corpus, removePunctuation)
+bio_corpus <- tm_map(bio_corpus, removeWords, stopwords("fr"))
+bio_corpus <- tm_map(bio_corpus, removeWords, stopwords("en"))
+bio_corpus <- tm_map(bio_corpus, removeWords,c("chez"))
+bio_corpus <- tm_map(bio_corpus, stripWhitespace)
+
+set.seed(5)
+wordcloud(bio_corpus, max.words = 30, colors = brewer.pal(6, "YlGnBu"))
+```
+
+
+## D'où viennent-ils ?
+
+```{r, echo=FALSE, include=TRUE, eval=TRUE, warning=FALSE, message=FALSE}
+lat <- sapply(members, function(x) { ifelse(length(x$lat) > 0, x$lat, NA) })
+lon <- sapply(members, function(x) { ifelse(length(x$lon) > 0, x$lon, NA) })
+geo <- data.frame(lat, lon)
+geo_tot <- geo %>% group_by(lat, lon) %>% summarize(effectif = n())
+
+library(leaflet)
+
+m <- leaflet(geo_tot) %>% addTiles() %>%
+        setView(lng = 2.5942187, lat = 46.6009097, zoom = 4) %>%
+        addMarkers(lng = ~lon, lat = ~lat, popup = ~paste(effectif, "inscrits"), clusterOptions = markerClusterOptions())
+m        
+```
+
+
+## De quoi parle-t-on ?
+
+* Wordcloud des descriptions des meetups :
+
+```{r, echo=FALSE, include=TRUE, eval=TRUE, warning=FALSE, message=FALSE}
+events_name <- sapply(events, function(x) { x$name })
+events_descr <- sapply(events, function(x) { x$description })
+events_past_name <- sapply(events_past, function(x) { x$name })
+events_past_descr <- sapply(events_past, function(x) { x$description })
+
+theme <- c(events_name, events_descr, events_past_name, events_past_descr)
+
+library(wordcloud)
+library(stringi)
+library(tm)
+
+clean_text <- function(x) {
+  
+  y <- x
+  y <- gsub("é", "e", y)
+  y <- gsub("è", "e", y)
+  y <- gsub("ê", "e", y)
+  y <- gsub("à", "a", y)
+  y <- gsub("ù", "u", y)
+  
+  y <- gsub("<p>", "", y)
+  y <- gsub("</p>", "", y)
+  y <- gsub("<b>", "", y)
+  y <- gsub("</b>", "", y)
+  y <- gsub("<i>", "", y)
+  y <- gsub("</i>", "", y)
+  y <- gsub("\"", "", y)
+  y <- gsub("<a href=", "", y)
+  y <- gsub("</a>", "", y)
+  y <- gsub("<br/>", "", y)
+  y <- gsub(">", "", y)
+  y <- gsub("packages", "package", y)
+  
+  return(y)
+}
+
+theme_work <- stri_trans_general(theme, "lower")
+theme_work <- sapply(theme_work, clean_text)
+theme_corpus <- Corpus(VectorSource(theme_work))
+theme_corpus <- tm_map(theme_corpus, removePunctuation)
+theme_corpus <- tm_map(theme_corpus, removeWords, stopwords("fr"))
+theme_corpus <- tm_map(theme_corpus, removeWords, c("petit", "comme", "avant", "plus", "ministere", "henri"))
+theme_corpus <- tm_map(theme_corpus, stripWhitespace)
+
+set.seed(5)
+wordcloud(theme_corpus, max.words = 12, colors = brewer.pal(5, "YlOrRd"))
+```
+
+
+## Merci aux sponsors
+
+
+![](images/sponsors.png){ width=80% }
+
+
+
+## {#page_title}
+
+Meetup R Nantes : 2017/2018
+
+
+
+## Idées de thématiques pour l'an prochain
+
+<br/>
+
+* Industrialisation de projets data science R : retour d'expériences
+* Les fonctions en R
+* Optimisation de code R : basé sur la lecture d'un ouvrage
+* Présentation d'un cas d'exemple d'utilisation de R pour des données de mobilité
+* Codelab R et mongoDB
+* Codelab R et dataviz avec Christophe Cariou
+* Manipulation de données avec "dplyr" : 2ème édition, avec Wilfrid Cariou
+* Codelab R Shiny #3
+
+
+## Proposez vos idées :)
+
+<br/>
+
+<div id="col3">
+
+![](images/keep-calm-and-use-r.jpg){ width=60%  }
+
+</div>
+<div id="col23">
+
+* Quels thèmes / sujets souhaiteriez-vous voir abordés lors des prochaines rencontres ?
+
+* Quels thèmes / sujets souhaiteriez-vous venir présenter lors des prochaines rencontres ?
+
+<br/>
+
+=> Questionnaire en ligne pour faire vos propositions pendant tout l'été : [https://goo.gl/forms/DALxhyzVMpzNmOP02](https://goo.gl/forms/DALxhyzVMpzNmOP02)
+
+</div>
+
+
+## Prochaine rencontre
+
+<div id="col2">
+
+<br/>
+
+Prochaine rencontre : <span class="myemphase">octobre 2017</span> !
+
+<br/>
+
+Gardez un oeil sur :
+
+* La page du groupe : [Meetup R Nantes](https://www.meetup.com/fr-FR/Meetup-R-Nantes/)
+* Le compte Twitter : [Twitter \@meetup_r_nantes](https://twitter.com/meetup_r_nantes)
+* Vos mails si vous êtes inscrits sur la page meetup ;)
+
+</div>
+<div id="col2">
+
+![](images/LogoMRN.png){ width=50%  }
+
+</div>
+
+
+## Merci à tous !
+
+![](images/mRci.png){ width=65%  }
+
