@@ -2,6 +2,7 @@
 
 Retrouvez ici les documents relatifs aux différentes rencontres du "[Meetup R Nantes](http://www.meetup.com/fr-FR/Meetup-R-Nantes/)".
 
+* Meetup du 26 mars 2018 - "**R et la statistique bayésienne appliquée à l'archéologie**"
 * Meetup du 12 février 2018 - "**Mise en production de code R : retour d'expRience**"
 * Meetup du 12 décembre 2017 - "**DataViz avec R : aperçu**"
 * Meetup du 7 novembre 2017 - "**Scrapper LeBonCoin avec R pour analyser les loyers**"
