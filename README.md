@@ -2,7 +2,7 @@
 
 Retrouvez ici les documents relatifs aux différentes rencontres du "[Meetup R Nantes](http://www.meetup.com/fr-FR/Meetup-R-Nantes/)".
 
-* Meetup du 21 janvier 2019 - "**Créez vos documents avec R Markdown**" - Romain Lesure : <https://github.com/RLesur/meetup-r-nantes-rmd>
+* Meetup du 21 janvier 2019 - "**Créez vos documents avec R Markdown**" - Romain Lesur : <https://github.com/RLesur/meetup-r-nantes-rmd>
 * Meetup du 19 novembre 2018 - "**Application R-Shiny : Prédictions dynamiques du risque d'échec de greffe**" - Marie-Cécile Fournier : <https://www.labcom-risca.com/single-post/2018/11/20/Participation-au-Meetup-R>
 * Meetup du 16 avril 2018 - "**R pour le web ? Mais pour quoi faire ?**" - Colin Fay : <https://github.com/ColinFay/conf/tree/master/2018-04-nantes_R_meetup>
 * Meetup du 26 mars 2018 - "**R et la statistique bayésienne appliquée à l'archéologie**" - Anne Philippe
