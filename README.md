@@ -12,7 +12,7 @@ Retrouvez ici les documents relatifs aux différentes rencontres du "[Meetup R N
 * Meetup du 12 juin 2017 - "**Meetup de fin d'année : bilan 1ère saison et projets pour saison 2 !**" - Aline Deschamps
 * Meetup du 22 mai 2017 - "**Codelab Initiation à la manipulation de données avec dplyr**" - Wilfrid Cariou : <https://github.com/wilcar/The-Trans-Atlantic-Slave-Trade-Db>
 * Meetup du 20 avril 2017 - "**'Curse of dimensionality - Remediation'**" - Henri Laude
-* Meetup du 13 février 2017 - "**Codelab R Shiny #2**" --Aline Deschamps
+* Meetup du 13 février 2017 - "**Codelab R Shiny #2**" - Aline Deschamps
 * Meetup du 9 janvier 2017 - "**Utilisation pratique de R au Ministère de la Justice : le package "data.table"**" - Philippe Chataignon
 * Meetup du 12 décembre 2016 - "**DataViz avec R**" - Christophe Cariou
 * Meetup du 14 novembre 2016 - "**Codelab R Shiny**" - Aline Deschamps
