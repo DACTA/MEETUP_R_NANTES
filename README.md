@@ -2,6 +2,8 @@
 
 Retrouvez ici les documents relatifs aux différentes rencontres du "[Meetup R Nantes](http://www.meetup.com/fr-FR/Meetup-R-Nantes/)".
 
+* Meetup du 18 juin 2019 - "**Comment j’ai transformé ce fichu rapport pour le rendre reproductible ?**" - Maël Theulière : <https://maeltheuliere.github.io/meetup-r-nante-20190618/>
+* Meetup du 25 avril 2019 - "**Utiliser R en production**" - Colin Fay : <https://speakerdeck.com/colinfay/r-in-production>
 * Meetup du 25 mars 2019 - "**Le package "GADMTools" : Système d'Information Géographique (SIG) pour R**" - Jean-Pierre Decorps
 * Meetup du 28 février 2019 - "**Données géo et R : de la donnée à la carte**" - Nicolas Roelandt : <https://roelandtn.frama.io/20190228_meetup_r_data_geo/>
 * Meetup du 21 janvier 2019 - "**Créez vos documents avec R Markdown**" - Romain Lesur : <https://github.com/RLesur/meetup-r-nantes-rmd>
