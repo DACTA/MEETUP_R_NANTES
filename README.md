@@ -2,6 +2,7 @@
 
 Retrouvez ici les documents relatifs aux différentes rencontres du "[Meetup R Nantes](http://www.meetup.com/fr-FR/Meetup-R-Nantes/)".
 
+* Meetup du 18 novembre 2019 - "**Deep leaRning, il n'y a pas que le python dans la vie**" - Nicolas Greffard
 * Meetup du 16 octobre 2019 - "**golem : un framework pour concevoir des app shiny robustes dans un cadre pro**" - Vincent Guyader
 * Meetup du 26 septembre 2019 - "**Cartographie avec R et d3.js**" - Arthur Katossky : <https://t.co/Y1V5qGBn4C?amp=1>
 * Meetup du 18 juin 2019 - "**Comment j’ai transformé ce fichu rapport pour le rendre reproductible ?**" - Maël Theulière : <https://maeltheuliere.github.io/meetup-r-nante-20190618/>
