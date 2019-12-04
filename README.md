@@ -2,6 +2,7 @@
 
 Retrouvez ici les documents relatifs aux différentes rencontres du "[Meetup R Nantes](http://www.meetup.com/fr-FR/Meetup-R-Nantes/)".
 
+* Meetup du 2 décembre 2019 - "**"Rmd first" : Quand le développement commence par la documentation...**" - Sébastien Rochette : <https://github.com/statnmap/course_material/blob/master/2019-11-06_rmd_first_method/2019-12-Meetup-R-Nantes.pdf>
 * Meetup du 18 novembre 2019 - "**Deep leaRning, il n'y a pas que le python dans la vie**" - Nicolas Greffard
 * Meetup du 16 octobre 2019 - "**golem : un framework pour concevoir des app shiny robustes dans un cadre pro**" - Vincent Guyader
 * Meetup du 26 septembre 2019 - "**Cartographie avec R et d3.js**" - Arthur Katossky : <https://t.co/Y1V5qGBn4C?amp=1>
